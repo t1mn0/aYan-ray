@@ -1,5 +1,6 @@
+#pragma once
+
 #include <atomic>
-#include <chrono>
 
 namespace ayan::sync {
 
@@ -13,15 +14,6 @@ private: // types:
 
 private: // fields:
   std::atomic<MutexState> state = MutexState::Unlocked;
-
-private: // methods:
-  static int futex (int* uaddr, int operation, int val,
-    std::chrono::milliseconds timeout = std::chrono::milliseconds(-1),
-    int* uaddr2 = nullptr, int val3 = 0) noexcept;
-
-  void futex_wait(int expected) noexcept;
-
-  void futex_wake(int count = 1) noexcept;
 
 public: // methods:
   Mutex() = default;
