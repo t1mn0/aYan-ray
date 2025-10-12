@@ -11,7 +11,7 @@ private: // fields:
 
 public: // methods:
   LockGuard() = delete;
-  explicit LockGuard(Mutex& m) noexcept;
+  explicit LockGuard(Mutex&) noexcept;
   ~LockGuard() noexcept;
 
   LockGuard(const LockGuard&) = delete;
