@@ -3,7 +3,7 @@ add_library(AyanRaySync STATIC)
 target_sources(AyanRaySync PRIVATE
     mutex/Mutex.cpp
     condvar/CondVar.cpp
-#    Barrier.cpp
+    barrier/Barrier.cpp
 )
 
 target_include_directories(AyanRaySync PUBLIC
