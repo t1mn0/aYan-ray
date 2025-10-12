@@ -10,6 +10,7 @@ private: // fields:
   Mutex& mutex;
 
 public: // methods:
+  LockGuard() = delete;
   explicit LockGuard(Mutex& m) noexcept;
   ~LockGuard() noexcept;
 
