@@ -1,8 +1,6 @@
 #include <ayan/sync/mutex/Mutex.hpp>
 #include <ayan/sync/detail/futex/futex.hpp>
 
-#include <linux/futex.h>
-
 namespace ayan::sync {
 
 // ------------------------- Mutex Public Methods -------------------------
