@@ -7,9 +7,11 @@ namespace ayan::sync {
 // ------------------------- Mutex Private Methods -------------------------
 
 // ----- ----- ----- ----- ----- ----- ----- ----- -----
+//                CORE METHOD : FUTEX()                |
+// ----- ----- ----- ----- ----- ----- ----- ----- -----
 // Mutex.futex(args);                                  |
 // ----- ----- ----- ----- ----- ----- ----- ----- -----
-// Method args:                                        |
+// .futex() args:                                      |
 // - uaddr: pointer to an atomic var                   |
 // - operation: FUTEX_WAIT or FUTEX_WAKE in our case   |
 // - val:                                              |
