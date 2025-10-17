@@ -15,6 +15,16 @@ option(AYANRAY_BUILD_TESTS "Build tests" ON)
 option(AYANRAY_BUILD_EXAMPLES "Build examples" ON)
 option(AYANRAY_USE_SANITIZERS "Enable sanitizers" OFF)
 option(AYANRAY_USE_SSE "Enable SSE optimizations" ON)
+option(DEBUG_MODE "Enable debug mode" OFF)
+
+if (DEBUG_MODE)
+    add_compile_definitions(AyanRay PUBLIC DEBUG)
+    message(STATUS "Debug mode enabled")
+endif()
+
+add_compile_definitions(AyanRay PUBLIC
+    PROJECT_ROOT_PATH="${CMAKE_SOURCE_DIR}"
+)
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "..." FORCE)
@@ -63,3 +73,12 @@ message(STATUS "  C++ Standard: ${CMAKE_CXX_STANDARD}")
 message(STATUS "  Build tests: ${AYANRAY_BUILD_TESTS}")
 message(STATUS "  Use sanitizers: ${AYANRAY_USE_SANITIZERS}")
 message(STATUS "  Install prefix: ${CMAKE_INSTALL_PREFIX}")
+
+
+add_executable(AyanRay_app main.cpp)
+
+if(TARGET AyanRay)
+    target_link_libraries(AyanRay_app PRIVATE AyanRay)
+else()
+    message(WARNING "AyanRay library target not found - main executable will be built without it")
+endif()
