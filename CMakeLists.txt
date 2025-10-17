@@ -41,8 +41,9 @@ endif()
 add_subdirectory(src)
 
 if(AYANRAY_BUILD_TESTS)
-    #enable_testing()
-    #add_subdirectory(tests)
+    find_package(GTest REQUIRED)
+    enable_testing()
+    add_subdirectory(tests)
 endif()
 
 if(AYANRAY_BUILD_EXAMPLES)

@@ -25,6 +25,9 @@ public: // methods:
   // similarly for naming classes:
   static Config& Instance();
 
+  // [TODO]: add validation for config fields:
+  // now: load_params_from_file -> parse lines -> init them in Config;
+  // [TODO]:  load_params_from_file -> parse lines -> validate it (sift out invalid fields) -> init them in Config;
   tmn::Result<bool, err::InvalidConfigFileErr> load_params_from_file(const std::string& filename);
 
   auto get_param_as_string(const std::string& param_name) -> tmn::Result<std::string, err::ConfigErr>;
