@@ -9,6 +9,8 @@
 
 namespace ayan::log {
 
+// ------------------------- Logger Public Methods -------------------------
+
 Logger& Logger::Instance() {
   static Logger instance;
   return instance;
@@ -83,6 +85,16 @@ void Logger::error(const std::string& message, const std::string& file, int line
   log(LogLevel::ERROR, message, file, line);
 }
 
+void Logger::set_level(LogLevel level) {
+  current_level = level;
+}
+
+LogLevel Logger::get_level() const {
+  return current_level;
+}
+
+// ------------------------- Logger Private Methods -------------------------
+
 void Logger::log(LogLevel level, const std::string& message, const std::string& file, int line) {
   if (!is_initialized || !is_should_log(level)) return;
 
@@ -123,14 +135,6 @@ std::string Logger::level_to_str(LogLevel level) const {
 
 bool Logger::is_should_log(LogLevel level) const {
   return level >= current_level;
-}
-
-void Logger::set_level(LogLevel level) {
-  current_level = level;
-}
-
-LogLevel Logger::get_level() const {
-  return current_level;
 }
 
 } // namespace ayan::log;

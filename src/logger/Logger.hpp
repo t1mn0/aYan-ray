@@ -15,6 +15,8 @@ enum class LogLevel {
   ERROR
 };
 
+// [TODO]: consider data-race problem with logger;
+
 class Logger {
 private: // fields:
   LogLevel current_level;
@@ -40,7 +42,7 @@ public: // methods:
   void set_level(LogLevel level);
   LogLevel get_level() const;
 
-private:
+private: // methods:
   Logger();
   ~Logger();
 
