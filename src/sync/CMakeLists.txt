@@ -6,6 +6,7 @@ target_sources(AyanRaySync PRIVATE
     detail/mutex/UniqueLock.cpp
     condvar/CondVar.cpp
     barrier/Barrier.cpp
+    waitgroup/WaitGroup.cpp
 )
 
 target_include_directories(AyanRaySync PUBLIC

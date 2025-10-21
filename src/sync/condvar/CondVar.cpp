@@ -2,6 +2,8 @@
 #include <ayan/sync/mutex/Mutex.hpp>
 #include <ayan/sync/detail/futex/Futex.hpp>
 
+#include <atomic>
+
 namespace ayan::sync {
 
 // ------------------------- CondVar Public Methods -------------------------

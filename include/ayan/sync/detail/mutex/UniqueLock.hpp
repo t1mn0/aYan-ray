@@ -23,6 +23,8 @@ public: // methods:
 
   void lock();
   void unlock();
+
+  bool is_locked();
 }; // class UniqueLock;
 
 } // namespace ayan::sync;

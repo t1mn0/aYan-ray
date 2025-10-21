@@ -53,7 +53,7 @@ private: // methods:
 };
 
 // DEBUG is a compile-time macro. Assigned at the compilation stage!
-#ifdef DEBUG
+#ifdef DEBUG_MODE
   #define LOG_DEBUG(message) Logger::Instance().debug(message, __FILE__, __LINE__)
   #define LOG_INFO(message) Logger::Instance().info(message, __FILE__, __LINE__)
   #define LOG_WARNING(message) Logger::Instance().warning(message, __FILE__, __LINE__)

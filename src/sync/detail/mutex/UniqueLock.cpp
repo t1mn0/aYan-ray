@@ -57,4 +57,8 @@ void UniqueLock::unlock() {
   owns_lock = false;
 }
 
+bool UniqueLock::is_locked() {
+  return owns_lock;
+}
+
 } // namespace ayan::sync;
