@@ -1,4 +1,4 @@
-#include <ayan/sync/detail/mutex/LockGuard.hpp>
+#include "LockGuard.hpp"
 
 namespace ayan::sync {
 

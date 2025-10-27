@@ -32,5 +32,5 @@ public: // methods:
 
 // TODO: Mutex.try_lock(), Mutex.try_lock_for(timeout);
 
-#include <ayan/sync/detail/mutex/LockGuard.hpp>
-#include <ayan/sync/detail/mutex/UniqueLock.hpp>
+#include "../detail/mutex/LockGuard.hpp"
+#include "../detail/mutex/UniqueLock.hpp"

@@ -1,6 +1,6 @@
-#include <ayan/sync/condvar/CondVar.hpp>
-#include <ayan/sync/mutex/Mutex.hpp>
-#include <ayan/sync/detail/futex/Futex.hpp>
+#include "CondVar.hpp"
+#include "../mutex/Mutex.hpp"
+#include "../detail/futex/Futex.hpp"
 
 #include <atomic>
 

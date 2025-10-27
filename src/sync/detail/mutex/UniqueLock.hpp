@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ayan/sync/mutex/Mutex.hpp>
+#include "../../mutex/Mutex.hpp"
 
 namespace ayan::sync {
 

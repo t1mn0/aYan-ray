@@ -1,7 +1,7 @@
 #pragma once
 
-#include <ayan/sync/mutex/Mutex.hpp>
-#include <ayan/sync/condvar/CondVar.hpp>
+#include "../mutex/Mutex.hpp"
+#include "../condvar/CondVar.hpp"
 
 #include <atomic>
 

@@ -1,5 +1,4 @@
-#include <ayan/sync/detail/mutex/UniqueLock.hpp>
-#include <ayan/sync/waitgroup/WaitGroup.hpp>
+#include "WaitGroup.hpp"
 
 namespace ayan::sync {
 

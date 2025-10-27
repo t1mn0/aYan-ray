@@ -1,5 +1,5 @@
-#include <ayan/sync/mutex/Mutex.hpp>
-#include <ayan/sync/detail/futex/Futex.hpp>
+#include "Mutex.hpp"
+#include "../detail/futex/Futex.hpp"
 
 namespace ayan::sync {
 
