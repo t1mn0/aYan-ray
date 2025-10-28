@@ -1,6 +1,6 @@
 #include "ThreadLocalDeq.hpp"
 
-namespace ayan::jobsys::thread_pool {
+namespace ayan::tasksystem::thread_pool {
 
 ThreadLocalDeq::ThreadLocalDeq() {
   for (auto& slot : buffer_) {
@@ -8,8 +8,8 @@ ThreadLocalDeq::ThreadLocalDeq() {
   }
 }
 
-bool ThreadLocalDeq::try_push(Job* job) {
-  assert(job != nullptr && "Cannot push nullptr Job");
+bool ThreadLocalDeq::try_push(Task* task) {
+  assert(task != nullptr && "Cannot push nullptr Task");
 
   int64_t b = bottom_.load(std::memory_order_relaxed);
   int64_t t = top_.load(std::memory_order_acquire); // using acquire <=> most recent top value;
@@ -24,10 +24,10 @@ bool ThreadLocalDeq::try_push(Job* job) {
 
   // Relaxed: release below will provide visibility;
   // Until we increase bottom_, thieves won't see this memory cell:
-  buffer_[b & MASK].store(job, std::memory_order_relaxed);
+  buffer_[b & MASK].store(task, std::memory_order_relaxed);
 
   // Release-fence: ensures that the buffer entry is visible BEFORE the bottom is increased;
-  // This is critical for steal() - the thief will see the correct Job:
+  // This is critical for steal() - the thief will see the correct Task:
   std::atomic_thread_fence(std::memory_order_release);
 
   // Relaxed OK: fence выше обеспечивает ordering
@@ -36,7 +36,7 @@ bool ThreadLocalDeq::try_push(Job* job) {
   return true;
 }
 
-Job* ThreadLocalDeq::try_pop() {
+Task* ThreadLocalDeq::try_pop() {
   // local change, other threads may not see it:
   int64_t b = bottom_.load(std::memory_order_relaxed) - 1;
   bottom_.store(b, std::memory_order_relaxed);
@@ -50,10 +50,10 @@ Job* ThreadLocalDeq::try_pop() {
 
   int64_t t = top_.load(std::memory_order_relaxed);
 
-  Job* job = nullptr;
+  Task* task = nullptr;
 
   if (t <= b) {
-    job = buffer_[b & MASK].load(std::memory_order_relaxed);
+    task = buffer_[b & MASK].load(std::memory_order_relaxed);
 
     if (t == b) {
       // If it was last item, race with steal() is possible;
@@ -72,7 +72,7 @@ Job* ThreadLocalDeq::try_pop() {
       {
         // (fallback for CAS operation):
         // It race was losed (thief stole last item):
-        job = nullptr;
+        task = nullptr;
       }
 
       // Restoring the bottom (deque is empty now):
@@ -84,10 +84,10 @@ Job* ThreadLocalDeq::try_pop() {
     bottom_.store(b + 1, std::memory_order_relaxed);
   }
 
-  return job;
+  return task;
 }
 
-Job* ThreadLocalDeq::try_steal() {
+Task* ThreadLocalDeq::try_steal() {
   // Read top_ with acquire (sync with previous succesful steal()/pop());
   // If another thief increased top_, we are guaranteed to see this change:
   int64_t t = top_.load(std::memory_order_acquire);
@@ -106,9 +106,9 @@ Job* ThreadLocalDeq::try_steal() {
   }
 
   // Relaxed OK: acquire with bottom_/top_ guarantees visibility;
-  Job* job = buffer_[t & MASK].load(std::memory_order_relaxed);
+  Task* task = buffer_[t & MASK].load(std::memory_order_relaxed);
 
-  // We are trying to atomically catch Job* via CAS on top_;
+  // We are trying to atomically catch Task* via CAS on top_;
   // Competing with other thieves and with the owner (if this is the last item):
   if (!top_.compare_exchange_strong(
       t, t + 1,
@@ -120,11 +120,11 @@ Job* ThreadLocalDeq::try_steal() {
   }
 
   // Succesfully stole:
-  return job;
+  return task;
 }
 
 constexpr size_t ThreadLocalDeq::capacity() {
   return CAPACITY;
 }
 
-} // namespace ayan::jobsys::thread_pool;
+} // namespace ayan::tasksystem::thread_pool;

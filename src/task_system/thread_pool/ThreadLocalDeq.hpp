@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../job/Job.hpp"
+#include "../task/Task.hpp"
 
 #include <atomic>
 #include <array>
 #include <cstdint>
 #include <cassert>
 
-namespace ayan::jobsys::thread_pool {
+namespace ayan::tasksystem::thread_pool {
 
 // ThreadLocalDeq is almost lock-free SPMC deque for work-stealing;
 // Implemented as Chase-Lev with a fixed size;
@@ -40,10 +40,10 @@ private: // static constexpr fields:
   // Only owner can modified (sync between push/pop is not needed)
   alignas(64) std::atomic<int64_t> bottom_ = 0;
 
-  /// Circular buffer для хранения Job*
-  alignas(64) std::array<std::atomic<Job*>, CAPACITY> buffer_;
+  /// Circular buffer для хранения Task*
+  alignas(64) std::array<std::atomic<Task*>, CAPACITY> buffer_;
 
-public:
+public: // methods:
   ThreadLocalDeq(); // setting all default contents as nullptr;
   ~ThreadLocalDeq() = default;
 
@@ -53,10 +53,10 @@ public:
   ThreadLocalDeq(ThreadLocalDeq&&) = delete;
   ThreadLocalDeq& operator=(ThreadLocalDeq&&) = delete;
 
-  [[nodiscard]] bool try_push(Job* job);
-  [[nodiscard]] Job* try_pop();
+  [[nodiscard]] bool try_push(Task* task);
+  [[nodiscard]] Task* try_pop();
 
-  [[nodiscard]] Job* try_steal();
+  [[nodiscard]] Task* try_steal();
 
   static constexpr size_t capacity();
 };
@@ -86,4 +86,4 @@ public:
 //             ↑                       ↑
 //            top=0                 bottom=6
 
-} // namespace ayan::jobsys::thread_pool
+} // namespace ayan::tasksystem::thread_pool
