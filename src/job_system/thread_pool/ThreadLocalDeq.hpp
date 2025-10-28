@@ -18,7 +18,7 @@ namespace ayan::jobsys::thread_pool {
 //
 // Guarantees:
 // - Lock-free for all operations;
-// - ABA-safe via 64-bit indexes;
+// - Overflow-safe via 64-bit indexes;
 // - Wait-free for owner (push/pop);
 // - Bounded capacity (overflow returns false);
 
@@ -30,6 +30,8 @@ public: // static constexpr fields:
 private: // static constexpr fields:
   // Bitmask for fast modulo (index & MASK):
   static constexpr size_t MASK = CAPACITY - 1;
+
+  // using signed (!) ariphmetic:
 
   // Modified via CAS by thieves (with concurrent stealing)
   // and owner (with race on the last element):
@@ -51,12 +53,12 @@ public:
   ThreadLocalDeq(ThreadLocalDeq&&) = delete;
   ThreadLocalDeq& operator=(ThreadLocalDeq&&) = delete;
 
-  bool push(Job* job);
-  Job* pop();
+  [[nodiscard]] bool try_push(Job* job);
+  [[nodiscard]] Job* try_pop();
 
-  Job* try_steal();
+  [[nodiscard]] Job* try_steal();
 
-  size_t capacity();
+  static constexpr size_t capacity();
 };
 
 // Invariants:
@@ -73,7 +75,7 @@ public:
 //                                ↑                    ↑
 //                               top                bottom (last)
 // Variants:
-// 1. push(): bottom-top+1>=CAPACITY => push() is impossible in this case;
+// 1. push(): bottom-top+1>=CAPACITY => `push()` is impossible in this case;
 // 2. steal():
 //            [A] [B] [C] [D] [E] [F] [G] [H]
 //                 ↑                       ↑

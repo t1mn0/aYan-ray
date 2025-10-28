@@ -46,12 +46,12 @@ public: // fields:
   // Pending dependency counter, which show how many Jobs must be completed BEFORE it Job starting:
   // +1 for each dependency via add_dependency();
   // When it reaches 0 → Job can be called execute() function:
-  std::atomic<int32_t> pending_dependencies = 0;
+  std::atomic<uint32_t> pending_dependencies = 0;
 
   // Work-in-progress counter (children + the Job itself)
   // +1 for each spawned child (inside execute());
   // When it reaches 0 → Job is fully completed:
-  std::atomic<int32_t> unfinished_jobs = 1;
+  std::atomic<uint32_t> unfinished_jobs = 1;
 
   // Parent for dynamically created child Jobs inside execute()-method;
   // Example: parallel_for creates N subtasks, all have parent = parallel_for_job;

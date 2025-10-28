@@ -39,7 +39,7 @@ void Job::execute() {
 }
 
 void Job::finish() {
-  int32_t prev_count = unfinished_jobs.fetch_sub(1, std::memory_order_acq_rel);
+  uint32_t prev_count = unfinished_jobs.fetch_sub(1, std::memory_order_acq_rel);
 
   assert(prev_count > 0 && "Double finish() detected!");
 
@@ -54,7 +54,7 @@ void Job::finish() {
     while (dep) {
       Job* next = dep->next_dependent;
 
-      int32_t remaining_deps = dep->pending_dependencies.fetch_sub(1,
+      uint32_t remaining_deps = dep->pending_dependencies.fetch_sub(1,
         std::memory_order_acq_rel) - 1;
 
       if (remaining_deps == 0) {
@@ -93,8 +93,8 @@ bool Job::has_unfinished_work() const {
 }
 
 int32_t Job::count_unfinished() const {
-  int32_t count = unfinished_jobs.load(std::memory_order_acquire);
-  return static_cast<int32_t>(count > 0 ? count : 0);
+  uint32_t count = unfinished_jobs.load(std::memory_order_acquire);
+  return static_cast<uint32_t>(count > 0 ? count : 0);
 }
 
 bool Job::is_ready() const {
