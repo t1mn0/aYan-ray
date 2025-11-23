@@ -1,4 +1,6 @@
+#include "src/math/matrix/fwd.hpp"
 #include <ayan/math/vec.hpp>
+#include <ayan/math/mat.hpp>
 #include <iostream>
 
 int main() {
@@ -11,4 +13,14 @@ int main() {
   auto [x, y, z] = c; // checking structure binding
 
   std::cout << x << " " << y << " " << z << std::endl;
+
+  Mat4i m = {
+    0, 1, 2, 3,
+    4, 5, 6, 7,
+    3, 1, 1, 1,
+    8, 9, 1, 3
+  };
+
+  auto [s1, s2, s3, s4] = m.row<3>();
+  std::cout << s1 << " " << s2 << " " << s3 << " " << s4 << std::endl;
 }
