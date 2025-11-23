@@ -35,12 +35,21 @@ target_include_directories(Ayan PUBLIC
     $<INSTALL_INTERFACE:include>
 )
 
+target_include_directories(Ayan PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/1st_party/include>
+    $<INSTALL_INTERFACE:include>
+)
+
 add_compile_definitions(Ayan PUBLIC
     PROJECT_ROOT_PATH="${CMAKE_SOURCE_DIR}"
 )
 
 target_include_directories(Ayan INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_include_directories(Ayan INTERFACE
+    ${CMAKE_CURRENT_SOURCE_DIR}/1st_party/include>
 )
 
 add_subdirectory(src/math)
