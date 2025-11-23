@@ -9,10 +9,10 @@
 namespace ayan::math {
 
 // 4-dimensional vector:
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 using Vec4 = Vec<4, NumT>;
 
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 class Vec<4, NumT> {
 private: // Fields:
   CacheFriendlyArr<NumT, 4> data; // x, y, z, w components of the vector;

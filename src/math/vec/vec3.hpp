@@ -8,7 +8,7 @@
 
 namespace ayan::math {
 
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 class Vec<3, NumT> {
 private: // Fields:
   CacheFriendlyArr<NumT, 3> data; // x, y, z components of the vector;

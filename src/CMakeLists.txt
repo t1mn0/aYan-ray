@@ -6,7 +6,7 @@ add_executable(examples
     example.cpp
 )
 
-target_link_libraries(examples PRIVATE AyanHeaders)
+target_link_libraries(examples PRIVATE Ayan)
 
 #add_subdirectory(core)
 add_subdirectory(math)

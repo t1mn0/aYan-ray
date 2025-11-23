@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <array>
 
-#include "validate.hpp"
+#include "../detail/validate.hpp"
 
 namespace ayan::math {
 
@@ -14,18 +14,16 @@ class Vec;
 template<typename T, size_t Size>
 using CacheFriendlyArr = std::array<T, Size>;
 
-// Common type aliases
-
 // 2-dimensional vector:
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 using Vec2 = Vec<2, NumT>;
 
 // 3-dimensional vector:
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 using Vec3 = Vec<3, NumT>;
 
 // 4-dimensional vector:
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 using Vec4 = Vec<4, NumT>;
 
 using Vec2f = Vec2<float>;

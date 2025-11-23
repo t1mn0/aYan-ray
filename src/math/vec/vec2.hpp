@@ -9,7 +9,7 @@
 namespace ayan::math {
 
 // template specializtions for planar structure with zero overhead by inheritance:
-template<typename NumT> requires (validate::ValidNumType<NumT>)
+template<typename NumT> requires (detail::ValidNumType<NumT>)
 class Vec<2, NumT> {
 private: // Fields:
   CacheFriendlyArr<NumT,2> data; // x, y components of the vector;
